@@ -1,0 +1,11 @@
+{
+  "name": "Local Stock Manager",
+  "short_name": "Local Stock",
+  "description": "Offline stock management for raw materials and finished products",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f4",
+  "theme_color": "#14532d",
+  "icons": []
+}

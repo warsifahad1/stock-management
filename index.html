@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#14532d">
+  <meta name="description" content="Offline stock management for raw materials and finished products">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>Local Stock</title>
+</head>
+<body>
+<header>
+  <div><h1>Local Stock</h1><p>Offline inventory manager</p></div>
+  <span id="offlineBadge">OFFLINE READY</span>
+</header>
+<main>
+  <section class="stats">
+    <article><small>Products</small><strong id="productCount">0</strong></article>
+    <article><small>Total units</small><strong id="totalQty">0</strong></article>
+    <article class="warn"><small>Low stock</small><strong id="lowCount">0</strong></article>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="stock">Stock</button>
+    <button class="tab" data-tab="add">Add product</button>
+    <button class="tab" data-tab="move">Stock In/Out</button>
+    <button class="tab" data-tab="backup">Backup</button>
+  </nav>
+
+  <section id="stock" class="panel">
+    <div class="sectionHead"><h2>Products</h2><input id="search" placeholder="Search product…" aria-label="Search products"></div>
+    <div id="lowAlert" class="alert" hidden></div>
+    <div id="productList" class="productList"></div>
+    <p id="emptyProducts" class="empty">Abhi koi product nahi hai. “Add product” se shuru karo.</p>
+  </section>
+
+  <section id="add" class="panel" hidden>
+    <h2>Add product</h2>
+    <form id="productForm">
+      <label>Product name<input name="name" required maxlength="80" placeholder="e.g. 1L PET Bottle"></label>
+      <label>Type<select name="type"><option>Raw material</option><option>Finished product</option></select></label>
+      <div class="two">
+        <label>Unit<input name="unit" required maxlength="20" placeholder="pcs, roll, kg, box" value="pcs"></label>
+        <label>Opening stock<input name="qty" type="number" min="0" step="any" required value="0"></label>
+      </div>
+      <label>Low-stock alert at<input name="minimum" type="number" min="0" step="any" required value="10"></label>
+      <label>Notes (optional)<textarea name="notes" rows="2" maxlength="250" placeholder="Size, colour, supplier etc."></textarea></label>
+      <button class="primary" type="submit">Save product</button>
+    </form>
+  </section>
+
+  <section id="move" class="panel" hidden>
+    <h2>Stock In / Stock Out</h2>
+    <form id="moveForm">
+      <label>Product<select name="productId" id="moveProduct" required></select></label>
+      <div class="two">
+        <label>Movement<select name="direction"><option value="in">Stock In (+)</option><option value="out">Stock Out (−)</option></select></label>
+        <label>Quantity<input name="qty" type="number" min="0.001" step="any" required placeholder="e.g. 100"></label>
+      </div>
+      <label>Reason / reference<input name="note" maxlength="120" placeholder="Purchase, sale, used, damaged…"></label>
+      <button class="primary" type="submit">Update stock</button>
+      <p class="hint">Stock Out available quantity se zyada nahi ho sakta.</p>
+    </form>
+    <h2 class="historyTitle">Recent movements</h2>
+    <div id="movementList"></div>
+  </section>
+
+  <section id="backup" class="panel" hidden>
+    <h2>Backup & Restore</h2>
+    <p>Apne records ko regular JSON backup file mein save karo. Backup ko phone ke Downloads ya Google Drive jaise kisi safe location par rakho.</p>
+    <button id="exportBtn" class="primary">Download backup</button>
+    <label class="fileLabel">Restore from backup file<input id="importFile" type="file" accept=".json,application/json"></label>
+    <p class="hint">Restore current app data ko backup ke data se replace karega. Pehle current backup download kar lo.</p>
+    <hr>
+    <h2>Data safety</h2>
+    <p>Data isi browser/device mein store hota hai. Browser data clear karne ya app uninstall karne se pehle backup zaroor lo.</p>
+    <button id="clearBtn" class="danger">Delete all app data</button>
+  </section>
+</main>
+<footer>Local Stock • Your data stays on this device</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
